@@ -2,11 +2,6 @@ import unittest
 from HasBehaviour import IsAggressive
 
 
-def calculate_manhattan_distance(position1, position2):
-    result = abs(position1[1] - position1[0]) + abs(position2[1] - position2[0])
-    return result
-
-
 class TestHasBehaviour(unittest.TestCase):
 
     """ Test if the owner of IsAggressive is moving towards the target:

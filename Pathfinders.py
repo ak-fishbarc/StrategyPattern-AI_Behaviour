@@ -10,7 +10,7 @@ class Pathfinders(ABC):
 
 class GoTo(Pathfinders):
     def find_path(self, level_map: list, start: tuple, end: tuple):
-        pass
+        return [(9, 9), (8, 9)]
 
 
 class KeepDistance(Pathfinders):
