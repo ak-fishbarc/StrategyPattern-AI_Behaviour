@@ -10,11 +10,11 @@ class TestPathfinders(unittest.TestCase):
     def setUp(self):
         self.go_to = GoTo()
         self.start = (2, 2)
-        self.end = (5, 5)
+        self.end = (4, 4)
 
     def test_goto_no_obstacles(self):
         found_path = self.go_to.find_path(level_map, self.start, self.end)
-        self.assertEqual(len(found_path), 2)
+        self.assertEqual(len(found_path), 4)
         for position in found_path:
             self.assertLess(TFT.calculate_manhattan_distance(position, self.end),
                             TFT.calculate_manhattan_distance(self.start, self.end))
