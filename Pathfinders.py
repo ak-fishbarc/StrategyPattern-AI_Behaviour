@@ -39,6 +39,15 @@ class Pathfinders(ABC):
         return result
 
     def track_path(self, level_map, start: tuple, end: tuple):
+        """ path will get inserted as a value into paths with the counter as the key.
+            pointer points to the current position in search.
+            nodes are assigned with position as key and the cost to the end position as value
+            alternative_nodes are assigned when two positions have the same value, one of them will
+            get used as a pointer and another one will be inserted into alternative_nodes. Later
+            alternative nodes get explored as a potential path to the end.
+            current_node is used for iteration through nodes.
+            paths are assigned when path is built.
+            empty_positions checks for any empty position around the current position - pointer. """
         path = [start]
         pointer = start
         nodes = {}
@@ -49,17 +58,21 @@ class Pathfinders(ABC):
         empty_positions = self.check_if_position_is_empty(level_map, start)
 
         while pointer != end or len(alternative_nodes) > 0:
-
+            """ If current path was explored, check for any alternative node to search for alternative
+                path. """
             if pointer == end and len(alternative_nodes) > 0:
                 path = [start]
                 pointer = alternative_nodes.pop()
                 path.append(pointer)
                 empty_positions = self.check_if_position_is_empty(level_map, pointer)
-
+            # Attach value to any empty position available.
             for position in empty_positions:
                 result_position = self.calculate_euclidean_distance(position, end)
                 nodes[position] = result_position
 
+            """ Check nodes and find the node with the best cost.
+                If two nodes have the same value - Pick one as the pointer and leave the other
+                in alternative_nodes for exploration later. """
             for node in nodes:
                 if current_node is None and node not in path:
                     current_node = node
@@ -78,7 +91,7 @@ class Pathfinders(ABC):
             current_node = None
             nodes = {}
             empty_positions = self.check_if_position_is_empty(level_map, pointer)
-
+            # Path exploration is finished. Check if there are any alternative nodes left.
             if pointer == end:
                 paths[counter] = path
                 counter += 1
@@ -88,7 +101,15 @@ class Pathfinders(ABC):
 
 class GoTo(Pathfinders):
     def find_path(self, level_map: list, start: tuple, end: tuple):
+        """ Start by looking for any paths from start to end. """
         paths = self.track_path(level_map, start, end)
+        """ This part of the code will go through all the positions in all the paths.
+            Every position will:
+            1. Look for a path from itself to the start.
+            2. Look for a path from itself to the end.
+            3. If it can reach both start and end from itself it'll combine both paths.
+            4. All the combined paths are added to paths for cost evaluation. 
+            This will check if the shortest path can be found from all the paths explored at first. """
         combined_paths = {}
         counter = 0
         for key in paths:
@@ -117,12 +138,14 @@ class GoTo(Pathfinders):
             paths[key] = combined_paths[key]
 
         current_path = None
-
+        # Evaluate the cost of each path in paths.
         for path in paths:
             if current_path is None:
                 current_path = path
             if current_path != path and len(paths[current_path]) > len(paths[path]):
                 current_path = path
+
+        # Return shortest path.
         return paths[current_path]
 
 
