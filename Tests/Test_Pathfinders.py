@@ -19,6 +19,22 @@ level_map_with_obstacle2 = [[0, 0, 0, 0, 0],
                            [0, 0, 0, 5, 0],
                            [0, 0, 0, 5, 0]]
 
+level_map_no_valid_path = [[0, 0, 0, 5, 0],
+                           [0, 0, 0, 5, 0],
+                           [0, 0, 0, 5, 0],
+                           [0, 0, 0, 5, 0],
+                           [0, 0, 0, 5, 0]]
+
+""" Just an extra to challenge pathfinding on U-shaped obstacles. 
+    Not actually used in testing. """
+level_map_with_obstacle3 = [[0, 0, 0, 0, 0, 0, 0],
+                           [0, 5, 5, 5, 0, 0, 0],
+                           [0, 0, 0, 5, 0, 0, 0],
+                           [0, 0, 0, 5, 0, 0, 0],
+                           [0, 0, 0, 5, 0, 0, 0],
+                           [0, 5, 5, 5, 0, 0, 0],
+                           [0, 0, 0, 0, 0, 0, 0]]
+
 
 class TestPathfinders(unittest.TestCase):
 
@@ -43,7 +59,9 @@ class TestPathfinders(unittest.TestCase):
         self.assertListEqual(valid_path2, found_path2)
 
     def test_goto_no_valid_path(self):
-        pass
+        no_valid_path = []
+        no_path = self.go_to.find_path(level_map_no_valid_path, self.start, self.end)
+        self.assertListEqual(no_valid_path, no_path)
 
 
 if __name__ == "__main__":
