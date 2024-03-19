@@ -13,6 +13,12 @@ level_map_with_obstacle = [[0, 0, 0, 0, 0],
                            [0, 5, 5, 0, 0],
                            [0, 5, 5, 0, 0]]
 
+level_map_no_valid_path = [[0, 0, 5, 0, 0],
+                           [0, 5, 5, 0, 0],
+                           [0, 0, 5, 0, 0],
+                           [0, 5, 5, 0, 0],
+                           [0, 5, 5, 0, 0]]
+
 
 class TestPathfindersKeepDistance(unittest.TestCase):
 
@@ -37,7 +43,8 @@ class TestPathfindersKeepDistance(unittest.TestCase):
         self.assertListEqual([(2, 3), (1, 3), (0, 3), (0, 2)], final_position)
 
     def test_keep_distance_no_valid_distance(self):
-        pass
+        final_position = self.keep_distance.find_path(level_map_no_valid_path, self.my_position, self.keep_distance_from)
+        self.assertListEqual([], final_position)
 
 
 if __name__ == "__main__":

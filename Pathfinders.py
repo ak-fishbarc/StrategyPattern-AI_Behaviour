@@ -205,10 +205,12 @@ class KeepDistance(Pathfinders):
             possible_paths = self.track_path(level_map, start, position)
             for path in possible_paths:
                 if len(possible_paths[path]) == 4:
+
                     paths[counter] = possible_paths[path]
                     counter += 1
         # Because there could be more than one position 4 steps away from the target, we can choose randomly.
         # Separate function could be made for non-random choice.
+
         choose_path_random = randint(0, len(paths)-1)
         return paths[choose_path_random]
 
