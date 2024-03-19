@@ -36,7 +36,7 @@ level_map_with_obstacle3 = [[0, 0, 0, 0, 0, 0, 0],
                            [0, 0, 0, 0, 0, 0, 0]]
 
 
-class TestPathfinders(unittest.TestCase):
+class TestPathfindersGoTo(unittest.TestCase):
 
     def setUp(self):
         self.go_to = GoTo()
