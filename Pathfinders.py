@@ -182,16 +182,24 @@ class KeepDistance(Pathfinders):
         valid_positions = []
         paths = {}
         possible_paths = {}
+        """ Check which positions are 4 steps away from the target. 
+            1. Set end in visited_position.
+            2. Loop through each visited_position; At every step set visited_position as pointer.
+            3. Check positions around the pointer. Check if any of them is empty.
+            4. For each empty position if it was not visited yet set it in visited_positions and check
+            if it's 4 steps away from the target. If it is set it in valid_positions. """
         while counter < 4:
             counter += 1
             for visited_position in visited_positions:
-                check_positions = self.check_if_position_is_empty(level_map, visited_position)
+                pointer = visited_position
+                check_positions = self.check_if_position_is_empty(level_map, pointer)
                 for position in check_positions:
                     if position not in visited_positions:
                         visited_positions.append(position)
                         validate_position = self.calculate_manhattan_distance(position, end)
                         if validate_position == 4:
                             valid_positions.append(position)
+        """ From all the positions 4 steps away from the target - Find path to them from start position. """
         counter = 0
         for position in valid_positions:
             possible_paths = self.track_path(level_map, start, position)
@@ -200,7 +208,8 @@ class KeepDistance(Pathfinders):
                 if len(possible_paths[path]) == 4:
                     paths[counter] = possible_paths[path]
                     counter += 1
-        # Because there is more than one position 4 steps away from the target, we can choose randomly.
+        # Because there could be more than one position 4 steps away from the target, we can choose randomly.
+        # Separate function could be made for non-random choice.
         choose_path_random = randint(0, len(possible_paths)-1)
         return possible_paths[choose_path_random]
 
