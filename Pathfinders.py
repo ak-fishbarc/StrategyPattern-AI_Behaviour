@@ -176,6 +176,8 @@ class GoTo(Pathfinders):
 
 
 class KeepDistance(Pathfinders):
+    """ This code could also be used for turn based rpg/strategy game for highlighting
+        squares/hexagons/fields where the unit can move """
     def find_path(self, level_map: list, start: tuple, end: tuple):
         counter = 0
         visited_positions = [end]
