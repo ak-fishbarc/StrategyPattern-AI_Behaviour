@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from random import randint
 
 
 class Pathfinders(ABC):
@@ -176,7 +177,32 @@ class GoTo(Pathfinders):
 
 class KeepDistance(Pathfinders):
     def find_path(self, level_map: list, start: tuple, end: tuple):
-        pass
+        counter = 0
+        visited_positions = [end]
+        valid_positions = []
+        paths = {}
+        possible_paths = {}
+        while counter < 4:
+            counter += 1
+            for visited_position in visited_positions:
+                check_positions = self.check_if_position_is_empty(level_map, visited_position)
+                for position in check_positions:
+                    if position not in visited_positions:
+                        visited_positions.append(position)
+                        validate_position = self.calculate_manhattan_distance(position, end)
+                        if validate_position == 4:
+                            valid_positions.append(position)
+        counter = 0
+        for position in valid_positions:
+            possible_paths = self.track_path(level_map, start, position)
+
+            for path in possible_paths:
+                if len(possible_paths[path]) == 4:
+                    paths[counter] = possible_paths[path]
+                    counter += 1
+        # Because there is more than one position 4 steps away from the target, we can choose randomly.
+        choose_path_random = randint(0, len(possible_paths)-1)
+        return possible_paths[choose_path_random]
 
 
 class GoAway(Pathfinders):
