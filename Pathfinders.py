@@ -221,6 +221,11 @@ class KeepDistance(Pathfinders):
 
 class GoAway(Pathfinders):
     def find_path(self, level_map: list, start: tuple, end: tuple):
+        """ 1. Check each position around the point on the map; starting from the start.
+            2. If position is empty and it's X blocks away from the target, add it to the list;
+            X = counter.
+            Each step should be further and further away from the target. How far it should go could
+            be tweaked depending on the need of the game. """
         counter = 0
         checked_points = [start]
         while counter < len(level_map)-1:
@@ -231,6 +236,12 @@ class GoAway(Pathfinders):
                     distance_from_end = self.calculate_manhattan_distance(position, end)
                     if distance_from_end == counter and position not in checked_points:
                         checked_points.append(position)
+        """ 1. Once we get all the points that are away from the target we will look for points that
+            are furthest away. 
+            2. We know that previous steps were making a list of points going from the nearest to the 
+            furthest point. So, we will reverse the list and check all the points that are furthest away 
+            from the target. 
+            3. If there are a few points, we will choose randomly where to go. """
         pointer = None
         for position in reversed(checked_points):
             if pointer is None:
