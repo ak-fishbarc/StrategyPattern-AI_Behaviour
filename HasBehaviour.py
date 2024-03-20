@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Pathfinders import Pathfinders
+import Pathfinders
 
 
 class HasBehaviour(ABC):
@@ -13,7 +13,11 @@ class HasBehaviour(ABC):
 # Move towards the target.
 class IsAggressive(HasBehaviour):
     def move(self, level_map: list, my_position: tuple, target: tuple) -> tuple:
-        pass
+        pathfinder = Pathfinders.GoTo().find_path(level_map, my_position, target)
+        if len(pathfinder) > 0:
+            return pathfinder[1]
+        elif len(pathfinder) == 0:
+            return my_position
 
 
 # Keep the distance from the target.

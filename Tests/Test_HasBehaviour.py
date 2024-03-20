@@ -10,8 +10,8 @@ level_map = [[0, 0, 0, 0, 0],
 level_map_with_obstacle = [[0, 0, 0, 0, 0],
                            [0, 0, 0, 0, 0],
                            [0, 0, 0, 0, 0],
-                           [0, 0, 0, 0, 0],
-                           [0, 0, 0, 0, 0]]
+                           [0, 0, 0, 5, 5],
+                           [0, 0, 0, 5, 0]]
 
 
 class TestHasBehaviour(unittest.TestCase):
@@ -26,7 +26,7 @@ class TestHasBehaviour(unittest.TestCase):
     Tests for pathfinding are done separately. """
 
     def test_aggressive_no_obstacle(self):
-        move_result = self.test_aggressive.move(level_map, (3,3), (5,5))
+        move_result = self.test_aggressive.move(level_map, (2,2), (4,4))
         self.assertIsNotNone(move_result)
         self.assertNotEqual(move_result, (3, 3))
 
