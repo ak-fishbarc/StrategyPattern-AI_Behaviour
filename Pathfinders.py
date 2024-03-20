@@ -221,7 +221,34 @@ class KeepDistance(Pathfinders):
 
 class GoAway(Pathfinders):
     def find_path(self, level_map: list, start: tuple, end: tuple):
-        pass
+        counter = 0
+        checked_points = [start]
+        while counter < len(level_map)-1:
+            counter += 1
+            for step in checked_points:
+                check_positions = self.check_if_position_is_empty(level_map, step)
+                for position in check_positions:
+                    distance_from_end = self.calculate_manhattan_distance(position, end)
+                    if distance_from_end == counter and position not in checked_points:
+                        checked_points.append(position)
+        pointer = None
+        for position in reversed(checked_points):
+            if pointer is None:
+                pointer = position
+            if pointer != position:
+                check_distance_pointer = self.calculate_manhattan_distance(pointer, end)
+                check_distance_position = self.calculate_manhattan_distance(position, end)
+                if check_distance_pointer > check_distance_position:
+                    checked_points.remove(position)
+
+        choose_path_randomly = randint(0, len(checked_points)-1)
+        path = self.track_path(level_map, start, checked_points[choose_path_randomly])
+        return path[0]
+
+
+
+
+
 
 
 
