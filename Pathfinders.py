@@ -46,7 +46,7 @@ class Pathfinders(ABC):
             nodes are assigned with position as key and the cost to the end position as value
             alternative_nodes are assigned when two positions have the same value, one of them will
             get used as a pointer and another one will be inserted into alternative_nodes. Later
-            alternative nodes get explored as a potential path to the end.
+            alternative_nodes get explored as a potential path to the end.
             current_node is used for iteration through nodes.
             paths are assigned when path is built.
             empty_positions checks for any empty position around the current position - pointer.
