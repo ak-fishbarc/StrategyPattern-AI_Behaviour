@@ -254,7 +254,10 @@ class GoAway(Pathfinders):
 
         choose_path_randomly = randint(0, len(checked_points)-1)
         path = self.track_path(level_map, start, checked_points[choose_path_randomly])
-        return path[0]
+        if len(path) > 0:
+            return path[0]
+        else:
+            return []
 
 
 

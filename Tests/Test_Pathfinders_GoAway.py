@@ -19,6 +19,12 @@ level_map_obstacle2 = [[0, 0, 0, 0, 0],
                        [0, 5, 5, 5, 0],
                        [0, 0, 0, 0, 0]]
 
+level_map_no_valid_path = [[0, 0, 0, 0, 0],
+                           [0, 0, 5, 5, 0],
+                           [0, 0, 5, 0, 0],
+                           [0, 0, 5, 5, 0],
+                           [0, 0, 0, 0, 0]]
+
 
 class TestPathfindersGoAway(unittest.TestCase):
 
@@ -41,8 +47,6 @@ class TestPathfindersGoAway(unittest.TestCase):
     def test_go_away_obstacle(self):
         escape_path = self.go_away.find_path(level_map_obstacle, self.my_position, self.go_away_from)
         escape_path2 = self.go_away.find_path(level_map_obstacle2, self.my_position, self.go_away_from)
-        print(escape_path)
-        print(escape_path2)
 
         """ Check if the code works when it can't reach the desired distance; 
             In this case, length/height of the level_map.
@@ -60,7 +64,8 @@ class TestPathfindersGoAway(unittest.TestCase):
             self.assertNotEqual(point, self.go_away_from)
 
     def test_go_away_no_valid_path(self):
-        pass
+        escape_path = self.go_away.find_path(level_map_no_valid_path, self.my_position, self.go_away_from)
+        self.assertEqual([], escape_path)
 
 
 if __name__ == "__main__":
