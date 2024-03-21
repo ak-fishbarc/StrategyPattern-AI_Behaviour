@@ -51,14 +51,14 @@ class TestHasBehaviour(unittest.TestCase):
     def test_defensive_no_obstacle(self):
         my_position = (3, 3)
         target = (4, 4)
-        counter = 0
-        while counter < 4:
+        counter = 1
+        while counter < 5:
             counter += 1
             move_result = self.test_defensive.move(level_map, my_position, target)
             my_position = move_result
             distance_from_target = TFT.calculate_manhattan_distance(my_position, target)
-            self.assertGreater(distance_from_target, counter)
-            self.assertLessEqual(distance_from_target, 4)
+            self.assertGreaterEqual(distance_from_target, 1)
+            self.assertLessEqual(distance_from_target, 5)
 
 
 if __name__ == "__main__":

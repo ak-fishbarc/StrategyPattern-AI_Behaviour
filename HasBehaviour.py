@@ -23,7 +23,8 @@ class IsAggressive(HasBehaviour):
 # Keep the distance from the target.
 class IsDefensive(HasBehaviour):
     def move(self, level_map: list, my_position: tuple, target: tuple) -> tuple:
-        pass
+        pathfinder = Pathfinders.KeepDistance().find_path(level_map, my_position, target)
+        return pathfinder[1]
 
 
 # Run away from the target.
