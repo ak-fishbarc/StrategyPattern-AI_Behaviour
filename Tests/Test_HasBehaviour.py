@@ -1,5 +1,6 @@
 import unittest
-from HasBehaviour import IsAggressive
+from HasBehaviour import IsAggressive, IsDefensive, IsCowardly
+from Tests import ToolsForTesting as TFT
 
 level_map = [[0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0],
@@ -13,11 +14,20 @@ level_map_with_obstacle = [[0, 0, 0, 0, 0],
                            [0, 0, 0, 5, 5],
                            [0, 0, 0, 5, 0]]
 
+level_map_large = [[0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0],
+                   [0, 0, 0, 0, 0, 0, 0]]
+
 
 class TestHasBehaviour(unittest.TestCase):
 
     def setUp(self):
         self.test_aggressive = IsAggressive()
+        self.test_defensive = IsDefensive()
 
     """ Test if the owner of IsAggressive is moving towards the target:
     This test is checking if function move returns a tuple different from
@@ -34,6 +44,21 @@ class TestHasBehaviour(unittest.TestCase):
         move_result = self.test_aggressive.move(level_map_with_obstacle, (3,3), (5,5))
         self.assertIsNotNone(move_result)
         self.assertEqual(move_result, (3, 3))
+
+    """ Test if the owner of IsDefensive is moving within the distance of 
+        4 steps away from the target """
+
+    def test_defensive_no_obstacle(self):
+        my_position = (3, 3)
+        target = (4, 4)
+        counter = 0
+        while counter < 4:
+            counter += 1
+            move_result = self.test_defensive.move(level_map, my_position, target)
+            my_position = move_result
+            distance_from_target = TFT.calculate_manhattan_distance(my_position, target)
+            self.assertGreater(distance_from_target, counter)
+            self.assertLessEqual(distance_from_target, 4)
 
 
 if __name__ == "__main__":
