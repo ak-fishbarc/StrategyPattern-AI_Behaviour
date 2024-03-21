@@ -28,12 +28,19 @@ level_map_keep_distance_obstacle = [[0, 0, 0, 0, 0],
                                     [0, 0, 5, 0, 0],
                                     [0, 0, 5, 0, 0]]
 
+level_map_cowardly_obstacle = [[0, 0, 0, 0, 0],
+                               [0, 0, 5, 5, 5],
+                               [0, 5, 0, 0, 0],
+                               [0, 0, 5, 0, 0],
+                               [0, 0, 5, 0, 0]]
+
 
 class TestHasBehaviour(unittest.TestCase):
 
     def setUp(self):
         self.test_aggressive = IsAggressive()
         self.test_defensive = IsDefensive()
+        self.test_cowardly = IsCowardly()
 
     """ Test if the owner of IsAggressive is moving towards the target:
     This test is checking if function move returns a tuple different from
@@ -84,6 +91,20 @@ class TestHasBehaviour(unittest.TestCase):
         target = (4, 4)
         move_result = self.test_defensive.move(level_map_keep_distance_obstacle, my_position, target)
         self.assertEqual(move_result, my_position)
+
+    """ Check if function returns point that is at least 1 step away from the target. """
+    def test_is_cowardly_no_obstacle(self):
+        my_position = (3, 3)
+        target = (4, 4)
+        move_result = self.test_cowardly.move(level_map, my_position, target)
+        distance_from_target = TFT.calculate_manhattan_distance(move_result, target)
+        self.assertGreater(distance_from_target, 1)
+
+    def test_is_cowardly_obstacle(self):
+        my_position = (2, 2)
+        target = (4, 4)
+        move_result = self.test_cowardly.move(level_map_cowardly_obstacle, my_position, target)
+        self.assertEqual((2, 2), move_result)
 
 
 if __name__ == "__main__":

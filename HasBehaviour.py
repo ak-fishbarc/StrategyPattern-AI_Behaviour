@@ -29,8 +29,8 @@ class IsDefensive(HasBehaviour):
         elif len(pathfinder) == 0:
             return my_position
 
+
 # Run away from the target.
 class IsCowardly(HasBehaviour):
     def move(self, level_map: list, my_position: tuple, target: tuple) -> tuple:
         pass
-

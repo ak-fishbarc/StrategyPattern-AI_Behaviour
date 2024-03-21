@@ -228,13 +228,17 @@ class GoAway(Pathfinders):
             be tweaked depending on the need of the game. """
         counter = 0
         checked_points = [start]
+        distance_from_start_to_end = self.calculate_manhattan_distance(start, end)
         while counter < len(level_map)-1:
             counter += 1
             for step in checked_points:
                 check_positions = self.check_if_position_is_empty(level_map, step)
                 for position in check_positions:
-                    distance_from_end = self.calculate_manhattan_distance(position, end)
-                    if distance_from_end == counter and position not in checked_points:
+                    distance_from_position_to_end = self.calculate_manhattan_distance(position, end)
+                    distance_from_position_to_start = self.calculate_manhattan_distance(position, start)
+                    if distance_from_position_to_end >= distance_from_start_to_end \
+                       and distance_from_position_to_start < distance_from_position_to_end \
+                            and position not in checked_points:
                         checked_points.append(position)
         """ 1. Once we get all the points that are away from the target we will look for points that
             are furthest away. 
@@ -251,6 +255,8 @@ class GoAway(Pathfinders):
                 check_distance_position = self.calculate_manhattan_distance(position, end)
                 if check_distance_pointer > check_distance_position:
                     checked_points.remove(position)
+                elif check_distance_pointer < check_distance_position:
+                    pointer = position
 
         choose_path_randomly = randint(0, len(checked_points)-1)
         path = self.track_path(level_map, start, checked_points[choose_path_randomly])
