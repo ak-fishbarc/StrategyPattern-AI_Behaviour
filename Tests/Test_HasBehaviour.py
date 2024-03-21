@@ -22,6 +22,12 @@ level_map_large = [[0, 0, 0, 0, 0, 0, 0],
                    [0, 0, 0, 0, 0, 0, 0],
                    [0, 0, 0, 0, 0, 0, 0]]
 
+level_map_keep_distance_obstacle = [[0, 0, 0, 0, 0],
+                                    [0, 0, 0, 0, 0],
+                                    [0, 0, 5, 5, 5],
+                                    [0, 0, 5, 0, 0],
+                                    [0, 0, 5, 0, 0]]
+
 
 class TestHasBehaviour(unittest.TestCase):
 
@@ -72,6 +78,12 @@ class TestHasBehaviour(unittest.TestCase):
             distance_from_target = TFT.calculate_manhattan_distance(my_position2, target2)
             self.assertGreaterEqual(distance_from_target, 1)
             self.assertLessEqual(distance_from_target, 5)
+
+    def test_defensive_obstacle(self):
+        my_position = (3, 3)
+        target = (4, 4)
+        move_result = self.test_defensive.move(level_map_keep_distance_obstacle, my_position, target)
+        self.assertEqual(move_result, my_position)
 
 
 if __name__ == "__main__":
