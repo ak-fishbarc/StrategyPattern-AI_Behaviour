@@ -50,13 +50,26 @@ class TestHasBehaviour(unittest.TestCase):
 
     def test_defensive_no_obstacle(self):
         my_position = (3, 3)
+        my_position2 = (3, 3)
         target = (4, 4)
+        target2 = (4, 4)
         counter = 1
+
         while counter < 5:
             counter += 1
+
+            """ Test on small level_map """
             move_result = self.test_defensive.move(level_map, my_position, target)
             my_position = move_result
             distance_from_target = TFT.calculate_manhattan_distance(my_position, target)
+            self.assertGreaterEqual(distance_from_target, 1)
+            self.assertLessEqual(distance_from_target, 5)
+
+            """ Test on large map to make sure that points are within range of 1 and 5 """
+
+            move_result = self.test_defensive.move(level_map_large, my_position2, target2)
+            my_position2 = move_result
+            distance_from_target = TFT.calculate_manhattan_distance(my_position2, target2)
             self.assertGreaterEqual(distance_from_target, 1)
             self.assertLessEqual(distance_from_target, 5)
 

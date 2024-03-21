@@ -45,6 +45,16 @@ class TestPathfindersKeepDistance(unittest.TestCase):
         final_position = self.keep_distance.find_path(level_map_no_valid_path, self.my_position, self.keep_distance_from)
         self.assertListEqual([], final_position)
 
+    def test_keep_distance_no_obstacles_diagonal_position(self):
+        my_position = (3, 3)
+        keep_distance_from = (4, 4)
+        final_position = self.keep_distance.find_path(level_map, my_position, keep_distance_from)
+        for position in final_position:
+            distance_from_target = self.keep_distance.calculate_manhattan_distance(my_position, keep_distance_from)
+            self.assertGreaterEqual(distance_from_target, 1)
+            self.assertLessEqual(distance_from_target, 5)
+            my_position = position
+
 
 if __name__ == "__main__":
     unittest.main()
