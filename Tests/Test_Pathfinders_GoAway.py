@@ -1,5 +1,5 @@
 import unittest
-from Pathfinders import GoAway
+from Pathfinders import GoAway, DistanceCalculator
 
 level_map = [[0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0],
@@ -30,6 +30,7 @@ class TestPathfindersGoAway(unittest.TestCase):
 
     def setUp(self):
         self.go_away = GoAway()
+        self.distance_calculator = DistanceCalculator()
         self.my_position = (2, 3)
         self.go_away_from = (2, 4)
 
@@ -41,7 +42,7 @@ class TestPathfindersGoAway(unittest.TestCase):
             """ Avoid measuring distance from starting position.
                 Make sure that with each step it's further away from the target on an empty map """
             if point != self.my_position:
-                measure_distance = self.go_away.calculate_manhattan_distance(point, self.go_away_from)
+                measure_distance = self.distance_calculator.calculate_manhattan_distance(point, self.go_away_from)
                 self.assertEqual(measure_distance, distance_counter)
 
     def test_go_away_obstacle(self):
@@ -55,7 +56,7 @@ class TestPathfindersGoAway(unittest.TestCase):
         for point in escape_path:
             distance_counter += 1
             if point != self.my_position:
-                measure_distance = self.go_away.calculate_manhattan_distance(point, self.go_away_from)
+                measure_distance = self.distance_calculator.calculate_manhattan_distance(point, self.go_away_from)
                 self.assertEqual(measure_distance, distance_counter)
 
         """ Check if find_path won't return any path that tries to walk through
