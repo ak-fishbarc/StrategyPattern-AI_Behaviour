@@ -35,7 +35,7 @@ level_map_cowardly_obstacle = [[0, 0, 0, 0, 0],
                                [0, 0, 5, 0, 0]]
 
 
-class TestHasBehaviour(unittest.TestCase):
+class TestHasBehaviourMove(unittest.TestCase):
 
     def setUp(self):
         self.test_aggressive = IsAggressive()
