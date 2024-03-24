@@ -1,2 +1,9 @@
+""" Prototype for testing. """
+
+
 class Spellbook:
-    pass
+    def __init__(self, owner, spellbook_level):
+        self.owner = owner
+        self.spellbook_level = spellbook_level
+        self.level1 = []
+

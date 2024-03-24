@@ -1,6 +1,16 @@
+""" Prototype for testing. """
+
+
 class Inventory:
-    pass
+    def __init__(self, owner, space):
+        self.owner = owner
+        self.space = space
+        self.items = []
 
 
 class Equipment:
-    pass
+    def __init__(self, owner, weapon, shield, armor):
+        self.owner = owner
+        self.weapon = weapon
+        self.shield = shield
+        self.armor = armor
