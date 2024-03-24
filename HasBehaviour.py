@@ -10,7 +10,7 @@ class HasBehaviour(ABC):
         pass
 
     @abstractmethod
-    def attack(self, inventory: list, equipment: dict, spellbook: dict, my_position: tuple, target: tuple):
+    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
         pass
 
 
@@ -23,7 +23,7 @@ class IsAggressive(HasBehaviour):
         elif len(pathfinder) == 0:
             return my_position
 
-    def attack(self, inventory: list, equipment: dict, spellbook: dict, my_position: tuple, target: tuple):
+    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
         pass
 
 
@@ -36,7 +36,7 @@ class IsDefensive(HasBehaviour):
         elif len(pathfinder) == 0:
             return my_position
 
-    def attack(self, inventory: list, equipment: dict, spellbook: dict, my_position: tuple, target: tuple):
+    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
         pass
 
 
@@ -49,6 +49,6 @@ class IsCowardly(HasBehaviour):
         elif len(pathfinder) == 0:
             return my_position
 
-    def attack(self, inventory: list, equipment: dict, spellbook: dict, my_position: tuple, target: tuple):
+    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
         pass
 
