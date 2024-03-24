@@ -10,7 +10,7 @@ class HasBehaviour(ABC):
         pass
 
     @abstractmethod
-    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
+    def attack(self, inventory, equipment, spellbook: dict, my_position: tuple, target: tuple):
         pass
 
 
@@ -23,8 +23,21 @@ class IsAggressive(HasBehaviour):
         elif len(pathfinder) == 0:
             return my_position
 
-    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
-        pass
+    def attack(self, inventory, equipment, spellbook: dict, my_position: tuple, target: tuple):
+        weapon_pointer = equipment.show_weapon()
+        if weapon_pointer is not None:
+            damage_pointer = weapon_pointer.show_damage()
+        else:
+            damage_pointer = 0
+
+        for item in inventory.show_items():
+            if item.show_type() == "weapon" and item.show_damage() > damage_pointer:
+                damage_pointer = item.show_damage()
+                weapon_pointer = item
+
+        if weapon_pointer is not None:
+            equipment.equip_weapon(weapon_pointer, inventory)
+        return equipment.show_weapon()
 
 
 # Keep the distance from the target.
@@ -36,7 +49,7 @@ class IsDefensive(HasBehaviour):
         elif len(pathfinder) == 0:
             return my_position
 
-    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
+    def attack(self, inventory, equipment, spellbook: dict, my_position: tuple, target: tuple):
         pass
 
 
@@ -49,6 +62,6 @@ class IsCowardly(HasBehaviour):
         elif len(pathfinder) == 0:
             return my_position
 
-    def attack(self, inventory: list, equipment, spellbook: dict, my_position: tuple, target: tuple):
+    def attack(self, inventory, equipment, spellbook: dict, my_position: tuple, target: tuple):
         pass
 

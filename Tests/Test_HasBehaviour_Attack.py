@@ -19,9 +19,8 @@ class TestHasBehaviourAttack(unittest.TestCase):
         self.test_inventory = Inventory("TagImaginaryEntity", 10)
         self.test_inventory.add_item(self.test_sword)
         self.test_inventory.add_item(self.test_greatsword)
-        self.items_list = self.test_inventory.show_items()
 
-        self.test_equipment = Equipment("TagImaginaryEntity", "Greatsword", None, None)
+        self.test_equipment = Equipment("TagImaginaryEntity", None, None, None)
 
         self.test_spell = Spell(1, 3, 3, 1)
 
@@ -32,7 +31,7 @@ class TestHasBehaviourAttack(unittest.TestCase):
     """ Test if the owner of IsAggressive is choosing the most damaging weapon 
         or spell. """
     def test_aggressive_close_quarters(self):
-        best_damage_item = self.test_aggressive.attack(self.items_list, self.test_equipment,
+        best_damage_item = self.test_aggressive.attack(self.test_inventory, self.test_equipment,
                                                        self.spell_list, (2, 3), (2, 4))
         self.assertEqual(self.test_greatsword.show_name(), best_damage_item.show_name())
         self.assertEqual(self.test_greatsword.show_damage(), best_damage_item.show_damage())

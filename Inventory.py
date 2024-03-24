@@ -34,3 +34,6 @@ class Equipment:
 
         else:
             print("I can't equip that!")
+
+    def show_weapon(self):
+        return self.weapon

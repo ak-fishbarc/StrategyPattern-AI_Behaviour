@@ -15,6 +15,9 @@ class Item:
     def show_name(self):
         return self.item_name
 
+    def show_type(self):
+        return self.item_type
+
     def show_damage(self):
         return self.damage
 
