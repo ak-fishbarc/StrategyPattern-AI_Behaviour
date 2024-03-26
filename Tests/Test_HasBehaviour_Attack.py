@@ -55,10 +55,10 @@ class TestHasBehaviourAttack(unittest.TestCase):
 
     def test_defensive_distance(self):
         self.test_defensive.attack(self.test_inventory, self.test_equipment,
-                                   self.spell_list, (2, 3), (2, 4))
+                                   self.spell_list, (1, 1), (2, 4))
         best_ranged = self.test_equipment.show_weapon()
         self.assertEqual(self.test_bow.show_name(), best_ranged.show_name())
-        self.assertEqual(self.test_bow.show_damage, best_ranged.show_damage())
+        self.assertEqual(self.test_bow.show_damage(), best_ranged.show_damage())
 
 
 if __name__ == "__main__":
