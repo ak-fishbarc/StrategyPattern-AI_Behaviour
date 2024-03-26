@@ -35,5 +35,19 @@ class Equipment:
         else:
             print("I can't equip that!")
 
+    def equip_shield(self, item, inventory):
+        if item.item_type == "shield":
+            if self.shield is None:
+                self.shield = item
+            else:
+                inventory.add_item(self.shield)
+                self.shield = item
+
+        else:
+            print("I can't equip that!")
+
     def show_weapon(self):
         return self.weapon
+
+    def show_shield(self):
+        return self.shield

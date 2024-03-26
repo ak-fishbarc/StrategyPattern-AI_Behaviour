@@ -15,10 +15,16 @@ class TestHasBehaviourAttack(unittest.TestCase):
 
         self.test_sword = Item("Sword", "weapon", 3, 0, 1)
         self.test_greatsword = Item("Greatsword", "weapon", 6, 0, 1)
+        self.test_short_bow = Item("Short Bow", "weapon", 3, 0, 5)
+        self.test_bow = Item("Bow", "weapon", 7, 0, 6)
+        self.test_shield = Item("Shield", "shield", 0, 3, 0)
 
         self.test_inventory = Inventory("TagImaginaryEntity", 10)
         self.test_inventory.add_item(self.test_sword)
         self.test_inventory.add_item(self.test_greatsword)
+        self.test_inventory.add_item(self.test_short_bow)
+        self.test_inventory.add_item(self.test_bow)
+        self.test_inventory.add_item(self.test_shield)
 
         self.test_equipment = Equipment("TagImaginaryEntity", None, None, None)
 
@@ -30,15 +36,30 @@ class TestHasBehaviourAttack(unittest.TestCase):
 
     """ Test if the owner of IsAggressive is choosing the most damaging weapon 
         or spell. """
-    def test_aggressive_close_quarters(self):
-        best_damage_item = self.test_aggressive.attack(self.test_inventory, self.test_equipment,
-                                                       self.spell_list, (2, 3), (2, 4))
-        self.assertEqual(self.test_greatsword.show_name(), best_damage_item.show_name())
-        self.assertEqual(self.test_greatsword.show_damage(), best_damage_item.show_damage())
+    def test_aggressive(self):
+        self.test_aggressive.attack(self.test_inventory, self.test_equipment,
+                                    self.spell_list, (2, 3), (2, 4))
+        best_weapon = self.test_equipment.show_weapon()
+        self.assertEqual(self.test_greatsword.show_name(), best_weapon.show_name())
+        self.assertEqual(self.test_greatsword.show_damage(), best_weapon.show_damage())
 
-    def test_aggressive_long_distance(self):
-        pass
+    def test_defensive_close_quarters(self):
+        self.test_defensive.attack(self.test_inventory, self.test_equipment,
+                                   self.spell_list, (2, 3), (2, 4))
+        best_shield = self.test_equipment.show_shield()
+        best_weapon = self.test_equipment.show_weapon()
+        self.assertEqual(self.test_shield.show_name(), best_shield.show_name())
+        self.assertEqual(self.test_shield.show_defense(), best_shield.show_defense())
+        self.assertEqual(self.test_sword.show_name(), best_weapon.show_name())
+        self.assertEqual(self.test_sword.show_damage(), best_weapon.show_damage())
 
-    def test_aggressive_spell(self):
-        pass
+    def test_defensive_distance(self):
+        self.test_defensive.attack(self.test_inventory, self.test_equipment,
+                                   self.spell_list, (2, 3), (2, 4))
+        best_ranged = self.test_equipment.show_weapon()
+        self.assertEqual(self.test_bow.show_name(), best_ranged.show_name())
+        self.assertEqual(self.test_bow.show_damage, best_ranged.show_damage())
 
+
+if __name__ == "__main__":
+    unittest.main()

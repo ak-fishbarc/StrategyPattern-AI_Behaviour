@@ -21,4 +21,11 @@ class Item:
     def show_damage(self):
         return self.damage
 
+    def show_defense(self):
+        return self.defense
+
+    def show_range(self):
+        return self.attack_range
+
+
 
