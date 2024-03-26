@@ -2,6 +2,17 @@ from abc import ABC, abstractmethod
 from random import randint
 
 
+class DistanceCalculator:
+
+    def calculate_manhattan_distance(self, position1: tuple, position2: tuple):
+        result = abs(position1[0] - position2[0]) + abs(position1[1] - position2[1])
+        return result
+
+    def calculate_euclidean_distance(self, position1: tuple, position2: tuple):
+        result = ((position1[0] - position2[0])**2 + (position1[1] - position2[1])**2)**0.5
+        return result
+
+
 class Pathfinders(ABC):
 
     @abstractmethod
@@ -32,15 +43,8 @@ class Pathfinders(ABC):
 
         return empty_positions
 
-    def calculate_manhattan_distance(self, position1: tuple, position2: tuple):
-        result = abs(position1[0] - position2[0]) + abs(position1[1] - position2[1])
-        return result
-
-    def calculate_euclidean_distance(self, position1: tuple, position2: tuple):
-        result = ((position1[0] - position2[0])**2 + (position1[1] - position2[1])**2)**0.5
-        return result
-
     def track_path(self, level_map, start: tuple, end: tuple):
+        distance_calculator = DistanceCalculator()
         """ path will get inserted as a value into paths with the counter as the key.
             pointer points to the current position in search.
             nodes are assigned with position as key and the cost to the end position as value
@@ -71,7 +75,7 @@ class Pathfinders(ABC):
                 empty_positions = self.check_if_position_is_empty(level_map, pointer)
             # Attach value to any empty position available.
             for position in empty_positions:
-                result_position = self.calculate_euclidean_distance(position, end)
+                result_position = distance_calculator.calculate_euclidean_distance(position, end)
                 nodes[position] = result_position
 
             """ Check nodes and find the node with the best cost.
@@ -179,6 +183,7 @@ class KeepDistance(Pathfinders):
     """ This code could also be used for turn based rpg/strategy game for highlighting
         squares/hexagons/fields where the unit can move """
     def find_path(self, level_map: list, start: tuple, end: tuple):
+        distance_calculator = DistanceCalculator()
         counter = 0
         visited_positions = [end]
         valid_positions = []
@@ -198,7 +203,7 @@ class KeepDistance(Pathfinders):
                 for position in check_positions:
                     if position not in visited_positions:
                         visited_positions.append(position)
-                        validate_position = self.calculate_manhattan_distance(position, end)
+                        validate_position = distance_calculator.calculate_manhattan_distance(position, end)
                         if validate_position == 4:
                             valid_positions.append(position)
         """ From all the positions 4 steps away from the target - Find path to them from start position. """
@@ -221,6 +226,7 @@ class KeepDistance(Pathfinders):
 
 class GoAway(Pathfinders):
     def find_path(self, level_map: list, start: tuple, end: tuple):
+        distance_calculator = DistanceCalculator()
         """ 1. Check each position around the point on the map; starting from the start.
             2. If position is empty and it's X blocks away from the target, add it to the list;
             X = counter.
@@ -228,14 +234,14 @@ class GoAway(Pathfinders):
             be tweaked depending on the need of the game. """
         counter = 0
         checked_points = [start]
-        distance_from_start_to_end = self.calculate_manhattan_distance(start, end)
+        distance_from_start_to_end = distance_calculator.calculate_manhattan_distance(start, end)
         while counter < len(level_map)-1:
             counter += 1
             for step in checked_points:
                 check_positions = self.check_if_position_is_empty(level_map, step)
                 for position in check_positions:
-                    distance_from_position_to_end = self.calculate_manhattan_distance(position, end)
-                    distance_from_position_to_start = self.calculate_manhattan_distance(position, start)
+                    distance_from_position_to_end = distance_calculator.calculate_manhattan_distance(position, end)
+                    distance_from_position_to_start = distance_calculator.calculate_manhattan_distance(position, start)
                     if distance_from_position_to_end >= distance_from_start_to_end \
                        and distance_from_position_to_start < distance_from_position_to_end \
                             and position not in checked_points:
@@ -251,8 +257,8 @@ class GoAway(Pathfinders):
             if pointer is None:
                 pointer = position
             if pointer != position:
-                check_distance_pointer = self.calculate_manhattan_distance(pointer, end)
-                check_distance_position = self.calculate_manhattan_distance(position, end)
+                check_distance_pointer = distance_calculator.calculate_manhattan_distance(pointer, end)
+                check_distance_position = distance_calculator.calculate_manhattan_distance(position, end)
                 if check_distance_pointer > check_distance_position:
                     checked_points.remove(position)
                 elif check_distance_pointer < check_distance_position:

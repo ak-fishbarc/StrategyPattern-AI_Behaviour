@@ -1,5 +1,5 @@
 import unittest
-from Pathfinders import KeepDistance
+from Pathfinders import KeepDistance, DistanceCalculator
 
 level_map = [[0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0],
@@ -24,6 +24,7 @@ class TestPathfindersKeepDistance(unittest.TestCase):
 
     def setUp(self):
         self.keep_distance = KeepDistance()
+        self.distance_calculator = DistanceCalculator()
         self.my_position = (2, 3)
         self.keep_distance_from = (2, 4)
 
@@ -34,7 +35,7 @@ class TestPathfindersKeepDistance(unittest.TestCase):
         lose the target from sight. """
     def test_keep_distance_no_obstacles(self):
         final_position = self.keep_distance.find_path(level_map, self.my_position, self.keep_distance_from)
-        self.assertEqual(self.keep_distance.calculate_manhattan_distance(final_position[-1], self.keep_distance_from),
+        self.assertEqual(self.distance_calculator.calculate_manhattan_distance(final_position[-1], self.keep_distance_from),
                          4)
 
     def test_keep_distance_obstacle(self):
@@ -50,7 +51,7 @@ class TestPathfindersKeepDistance(unittest.TestCase):
         keep_distance_from = (4, 4)
         final_position = self.keep_distance.find_path(level_map, my_position, keep_distance_from)
         for position in final_position:
-            distance_from_target = self.keep_distance.calculate_manhattan_distance(my_position, keep_distance_from)
+            distance_from_target = self.distance_calculator.calculate_manhattan_distance(my_position, keep_distance_from)
             self.assertGreaterEqual(distance_from_target, 1)
             self.assertLessEqual(distance_from_target, 5)
             my_position = position
