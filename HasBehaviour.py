@@ -45,7 +45,9 @@ class IsAggressive(HasBehaviour):
             equipment.equip_weapon(weapon_pointer, inventory)
 
 
-# Keep the distance from the target.
+""" Keep distance from the target. Use ranged weapon or spells when possible or best defensive equipment. """
+
+
 class IsDefensive(HasBehaviour):
     def move(self, level_map: list, my_position: tuple, target: tuple) -> tuple:
         pathfinder = Pathfinders.KeepDistance().find_path(level_map, my_position, target)
@@ -55,7 +57,42 @@ class IsDefensive(HasBehaviour):
             return my_position
 
     def attack(self, inventory, equipment, spellbook: dict, my_position: tuple, target: tuple):
-        pass
+        distance_calculator = Pathfinders.DistanceCalculator()
+        if distance_calculator.calculate_manhattan_distance(my_position, target) == 1:
+            weapon_pointer = equipment.show_weapon()
+            shield_pointer = equipment.show_shield()
+            if weapon_pointer is not None:
+                damage_pointer = weapon_pointer.show_damage()
+            else:
+                damage_pointer = 0
+
+            if shield_pointer is not None:
+                defense_pointer = shield_pointer.show_defense()
+            else:
+                defense_pointer = 0
+
+            for item in inventory.show_items():
+                if item.show_type() == "shield" and item.show_defense() > defense_pointer:
+                    defense_pointer = item.show_defense()
+                    shield_pointer = item
+
+            for item in inventory.show_items():
+                slots = item.show_slots()
+                if shield_pointer is not None:
+                    if item.show_type() == "weapon" and item.show_range() == 1 and item.show_damage() > damage_pointer\
+                            and slots == 1:
+                        damage_pointer = item.show_damage()
+                        weapon_pointer = item
+                else:
+                    if item.show_type() == "weapon" and item.show_range() == 1 and item.show_damage() > damage_pointer\
+                            and slots == 2:
+                        damage_pointer = item.show_damage()
+                        weapon_pointer = item
+
+            if weapon_pointer is not None:
+                equipment.equip_weapon(weapon_pointer, inventory)
+            if shield_pointer is not None:
+                equipment.equip_shield(shield_pointer, inventory)
 
 
 # Run away from the target.

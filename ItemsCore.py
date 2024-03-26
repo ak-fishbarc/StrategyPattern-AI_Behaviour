@@ -5,9 +5,10 @@
 
 
 class Item:
-    def __init__(self, item_name, item_type, damage, defense, attack_range):
+    def __init__(self, item_name, item_type, item_slots, damage, defense, attack_range):
         self.item_name = item_name
         self.item_type = item_type
+        self.item_slots = item_slots
         self.damage = damage
         self.defense = defense
         self.attack_range = attack_range
@@ -17,6 +18,9 @@ class Item:
 
     def show_type(self):
         return self.item_type
+
+    def show_slots(self):
+        return self.item_slots
 
     def show_damage(self):
         return self.damage

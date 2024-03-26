@@ -13,11 +13,11 @@ class TestHasBehaviourAttack(unittest.TestCase):
         self.test_defensive = IsDefensive()
         self.test_cowardly = IsCowardly()
 
-        self.test_sword = Item("Sword", "weapon", 3, 0, 1)
-        self.test_greatsword = Item("Greatsword", "weapon", 6, 0, 1)
-        self.test_short_bow = Item("Short Bow", "weapon", 3, 0, 5)
-        self.test_bow = Item("Bow", "weapon", 7, 0, 6)
-        self.test_shield = Item("Shield", "shield", 0, 3, 0)
+        self.test_sword = Item("Sword", "weapon", 1, 3, 0, 1)
+        self.test_greatsword = Item("Greatsword", "weapon", 2, 6, 0, 1)
+        self.test_short_bow = Item("Short Bow", "weapon", 2, 3, 0, 5)
+        self.test_bow = Item("Bow", "weapon", 2, 7, 0, 6)
+        self.test_shield = Item("Shield", "shield", 1, 0, 3, 0)
 
         self.test_inventory = Inventory("TagImaginaryEntity", 10)
         self.test_inventory.add_item(self.test_sword)
