@@ -1,9 +1,9 @@
 import unittest
 from HasBehaviour import IsAggressive, IsDefensive, IsCowardly
-from ItemsCore import Item
-from SpellsCore import Spell
-from Inventory import Inventory, Equipment
-from Spellbook import Spellbook
+from Inventory_and_Items.Inventory import Inventory, Equipment
+from Inventory_and_Items.ItemsCore import Item
+from Spellbook_and_Spells.Spellbook import Spellbook
+from Spellbook_and_Spells.SpellsCore import Spell
 
 
 class TestHasBehaviourAttack(unittest.TestCase):
